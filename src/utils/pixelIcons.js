@@ -1,6 +1,4 @@
-﻿// Ícones pixelizados para representar hábitos
-export const PIXEL_ICONS = {
-  // Padrão: 8x8 representação de texto
+﻿export const PIXEL_ICONS = {
   estrela: '★',
   forca: '♦',
   alvo: '◉',

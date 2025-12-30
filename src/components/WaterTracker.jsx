@@ -17,20 +17,17 @@ export const WaterTracker = ({ habit, onUpdate, compact = false }) => {
   const [visible, setVisible] = useState(false);
   const [amount, setAmount] = useState('0.25');
   const [currentAmount, setCurrentAmount] = useState(habit.waterAmount || 0);
-  const goal = habit.waterGoal || 2; // Meta padrão 2L
+  const goal = habit.waterGoal || 2;
 
-  // Sincronizar com as mudanças do habit
   React.useEffect(() => {
     setCurrentAmount(habit.waterAmount || 0);
   }, [habit.waterAmount]);
 
   const addWater = async (liters) => {
-    // Atualizar estado local imediatamente
     const newAmount = currentAmount + liters;
     setCurrentAmount(newAmount);
     setVisible(false);
 
-    // Atualizar no storage
     const habits = await storageService.getHabits();
     const updated = habits.map(h => {
       if (h.id === habit.id) {
@@ -39,14 +36,13 @@ export const WaterTracker = ({ habit, onUpdate, compact = false }) => {
         return {
           ...h,
           waterAmount: newAmount,
-          completed: goalReached, // Marca como completo se atingir meta
+          completed: goalReached, 
         };
       }
       return h;
     });
     await storageService.saveHabits(updated);
     
-    // Log da atividade
     await storageService.logHabitCompletion({
       habitId: habit.id,
       completedAt: new Date(),
@@ -58,7 +54,6 @@ export const WaterTracker = ({ habit, onUpdate, compact = false }) => {
 
   const percentage = Math.min((currentAmount / goal) * 100, 100);
 
-  // Versão compacta para home
   if (compact) {
     return (
       <View style={styles.compactContainer}>

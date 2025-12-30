@@ -77,7 +77,6 @@ export const CharacterCreationScreen = ({ onComplete }) => {
     };
 
     await storageService.savePlayer(player);
-    // Salvar também com a chave 'player' para o App.js detectar
     await AsyncStorage.setItem('player', JSON.stringify(player));
     onComplete(player);
   };

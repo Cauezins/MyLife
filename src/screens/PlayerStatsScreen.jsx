@@ -54,17 +54,14 @@ export const PlayerStatsScreen = () => {
       const totalStreak = habits.reduce((sum, h) => sum + (h.streak || 0), 0);
       const longestStreak = Math.max(...habits.map(h => h.streak || 0), 0);
       
-      // Buscar histórico de completions
       const logs = await storageService.getLogs();
       
-      // Calcular estatísticas de água
       const waterLogs = logs.filter(log => log.waterAmount !== undefined);
       const totalWaterLiters = waterLogs.reduce((sum, log) => sum + (log.waterAmount || 0), 0);
       const uniqueWaterDays = new Set(waterLogs.map(log => 
         new Date(log.completedAt).toDateString()
       )).size;
       
-      // Calcular estatísticas de sono
       const sleepLogs = logs.filter(log => log.sleepDuration !== undefined);
       const totalSleepMinutes = sleepLogs.reduce((sum, log) => sum + (log.sleepDuration || 0), 0);
       const totalSleepHours = totalSleepMinutes / 60;
@@ -72,7 +69,6 @@ export const PlayerStatsScreen = () => {
         new Date(log.completedAt).toDateString()
       )).size;
       
-      // Calcular estatísticas de foco
       const focusHabits = habits.filter(h => h.trackingType === 'timer');
       const totalFocusMinutes = focusHabits.reduce((sum, h) => {
         const completions = logs.filter(log => log.habitId === h.id).length;
@@ -93,7 +89,6 @@ export const PlayerStatsScreen = () => {
       });
     } catch (error) {
       console.error('Error loading stats:', error);
-      // Se houver erro, voltar para home
       navigation.navigate('Home');
     }
   };
@@ -111,12 +106,10 @@ export const PlayerStatsScreen = () => {
             try {
               await storageService.clearAll();
               
-              // Chamar função global do App para resetar
               if (typeof (global ).resetApp === 'function') {
                 (global ).resetApp();
               }
               
-              // Voltar para home (que redirecionárá para criação)
               navigation.navigate('Home');
             } catch (error) {
               console.error('Error deleting character:', error);
@@ -144,7 +137,6 @@ export const PlayerStatsScreen = () => {
           onPress: async () => {
             await AsyncStorage.setItem('app_language', lang.code);
             (global ).appLanguage = lang.code;
-            // Recarregar dados para atualizar UI
             loadData();
           },
         })),

@@ -5,7 +5,6 @@ import { PixelCharacter, generatePixelArt } from '../utils/pixelCharacter';
 
 
 export const PixelAvatar = ({ character, size = 128 }) => {
-  // Se houver personagem customizado, mostrar ele ao invés do gerado
   if (character.customCharacterImage) {
     return (
       <View style={[styles.container, { width: size, height: size }]}>
@@ -18,7 +17,6 @@ export const PixelAvatar = ({ character, size = 128 }) => {
     );
   }
 
-  // Caso contrário, gerar o personagem com as opções selecionadas
   const grid = generatePixelArt(character);
   const pixelSize = size / 16;
 
@@ -54,7 +52,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   pixel: {
-    // Pixels individuais
   },
 });
 

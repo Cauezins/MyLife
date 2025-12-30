@@ -20,14 +20,12 @@ export const SleepTracker = ({ habit, onUpdate, compact = false }) => {
     habit.sleepData?.wakeTime ? new Date(habit.sleepData.wakeTime) : null
   );
 
-  // Atualizar notificação de sono a cada minuto
   useEffect(() => {
     if (bedTime && !wakeTime) {
       const interval = setInterval(() => {
         updateSleepNotification();
-      }, 60000); // Atualizar a cada minuto
+      }, 60000);
       
-      // Atualizar imediatamente
       updateSleepNotification();
       
       return () => clearInterval(interval);
@@ -60,7 +58,7 @@ export const SleepTracker = ({ habit, onUpdate, compact = false }) => {
           sleepData: {
             ...h.sleepData,
             bedTime,
-            wakeTime, // Reset wake time
+            wakeTime, 
           },
         };
       }
@@ -71,7 +69,6 @@ export const SleepTracker = ({ habit, onUpdate, compact = false }) => {
     setBedTime(now);
     setWakeTime(null);
     
-    // Criar notificação persistente de sono
     await notificationService.displayOngoingNotification(
       `sleep-${habit.id}`,
       `💤 ${habit.name} - Dormindo`,
@@ -87,10 +84,9 @@ export const SleepTracker = ({ habit, onUpdate, compact = false }) => {
     const now = new Date();
     const habits = await storageService.getHabits();
     
-    // Calcular duração do sono em minutos
     const duration = Math.round((now.getTime() - bedTime.getTime()) / (1000 * 60));
     const hours = duration / 60;
-    const goalHours = habit.sleepGoalHours || 8; // Meta padrão 8h
+    const goalHours = habit.sleepGoalHours || 8; 
     const goalReached = hours >= goalHours;
     
     const updated = habits.map(h => {
@@ -101,7 +97,7 @@ export const SleepTracker = ({ habit, onUpdate, compact = false }) => {
             ...h.sleepData,
             wakeTime,
           },
-          completed, // Só marca completo se atingir meta
+          completed,
           streak: completed ? h.streak + 1 : h.streak,
         };
       }
@@ -110,14 +106,12 @@ export const SleepTracker = ({ habit, onUpdate, compact = false }) => {
     
     await storageService.saveHabits(updated);
     
-    // Log da atividade
     await storageService.logHabitCompletion({
       habitId: habit.id,
       completedAt,
       sleepDuration,
     });
     
-    // Remover notificação persistente de sono
     await notificationService.cancelOngoingNotification(`sleep-${habit.id}`);
     
     setWakeTime(now);
@@ -141,7 +135,6 @@ export const SleepTracker = ({ habit, onUpdate, compact = false }) => {
 
   const duration = calculateSleepDuration();
 
-  // Versão compacta para home
   if (compact) {
     return (
       <View style={styles.compactContainer}>

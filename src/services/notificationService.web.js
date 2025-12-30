@@ -1,7 +1,4 @@
-﻿// Web implementation of notification service
-// Uses browser's Notification API instead of Notifee
-
-import { Habit } from '../types';
+﻿import { Habit } from '../types';
 
 export const notificationService = {
   async requestPermission() {
@@ -20,7 +17,6 @@ export const notificationService = {
   },
 
   async createChannel() {
-    // Not needed for web
     return Promise.resolve();
   },
 
@@ -28,7 +24,6 @@ export const notificationService = {
     if (!habit.notificationEnabled) return;
 
     try {
-      // For web, we'll use localStorage to track scheduled notifications
       const scheduled = JSON.parse(localStorage.getItem('scheduled_notifications') || '[]');
       
       const notification = {
@@ -47,7 +42,6 @@ export const notificationService = {
       
       localStorage.setItem('scheduled_notifications', JSON.stringify(scheduled));
       
-      // Set up a timer to check for notifications
       this.checkScheduledNotifications();
     } catch (error) {
       console.error('Error scheduling notification:', error);
@@ -89,8 +83,6 @@ export const notificationService = {
   },
 
   checkScheduledNotifications() {
-    // This would be called periodically to check if any notifications should be shown
-    // In a production app, you'd use a service worker for this
     const scheduled = JSON.parse(localStorage.getItem('scheduled_notifications') || '[]');
     const now = new Date();
     const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
@@ -106,7 +98,6 @@ export const notificationService = {
   },
 };
 
-// Check notifications every minute
 if (typeof window !== 'undefined') {
   setInterval(() => {
     notificationService.checkScheduledNotifications();

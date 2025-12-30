@@ -20,7 +20,6 @@ import { SleepTracker } from '../components/SleepTracker';
 import { FocusTimer } from '../components/FocusTimer';
 import { translations } from '../utils/translations';
 
-// ScrollView wrapper otimizado para web
 const PlatformScrollView = Platform.OS === 'web' 
   ? ({ children, style, contentContainerStyle }) => (
       <View style={[style, { overflow: 'auto'  }]}>
@@ -41,7 +40,6 @@ export const HabitDetailScreen = () => {
   const t = translations[language];
 
   const handleUpdate = async () => {
-    // Recarregar o hábito do storage
     const habits = await storageService.getHabits();
     const updatedHabit = habits.find(h => h.id === habit.id);
     if (updatedHabit) {

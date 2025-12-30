@@ -19,7 +19,6 @@ import { PIXEL_ICON_LIST } from '../utils/pixelIcons';
 import { RecurrenceSelector, DaySelector, TrackingTypeSelector } from '../components/RecurrenceSelectors';
 import { translations } from '../utils/translations';
 
-// ScrollView wrapper otimizado para web
 const PlatformScrollView = Platform.OS === 'web' 
   ? ({ children, style, contentContainerStyle }) => (
       <View style={[style, { overflow: 'auto'  }]}>

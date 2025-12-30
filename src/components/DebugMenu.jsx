@@ -17,7 +17,6 @@ export const DebugMenu = () => {
             const habits = await storageService.getHabits();
             await storageService.clearAll();
             await storageService.saveHabits(habits);
-            // Recarregar a página
             if (typeof window !== 'undefined') {
               window.location.reload();
             }

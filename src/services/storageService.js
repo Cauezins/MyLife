@@ -89,11 +89,11 @@ export const storageService = {
       
       const sleepLogs = habitLogs.filter(log => log.sleepDuration);
       const averageSleep = sleepLogs.length > 0
-        ? sleepLogs.reduce((sum, log) => sum + (log.sleepDuration || 0), 0) / sleepLogs.length / 60 // em horas
+        ? sleepLogs.reduce((sum, log) => sum + (log.sleepDuration || 0), 0) / sleepLogs.length / 60 
         : 0;
       
       const focusLogs = habitLogs.filter(log => log.timerUsed);
-      const totalFocusTime = focusLogs.length * 25; // Assumindo 25 min por sessão
+      const totalFocusTime = focusLogs.length * 25; 
       
       return {
         totalCompletions,

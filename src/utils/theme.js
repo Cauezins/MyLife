@@ -1,11 +1,10 @@
 ﻿export const RETRO_THEME = {
   colors: {
-    // Dark theme - cores de jogos antigos
     background: '#0a0e27',
     cardBackground: '#1a1f3a',
-    primary: '#ffffff', // Branco limpo
-    secondary: '#ff00ff', // Magenta retro
-    accent: '#00ffff', // Ciano
+    primary: '#ffffff', 
+    secondary: '#ff00ff', 
+    accent: '#00ffff', 
     text: '#e0e0e0',
     textDark: '#a0a0a0',
     success: '#00ff41',
@@ -13,7 +12,6 @@
     danger: '#ff0055',
     border: '#2a2f4a',
     
-    // Pixel art style
     pixel: {
       red: '#ff0055',
       green: '#00ff41',

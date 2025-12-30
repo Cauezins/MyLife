@@ -94,12 +94,10 @@ export const HomeScreen = () => {
         notificationService.scheduleHabitNotification(habit);
       });
     } else {
-      // Verificar se mudou de dia e resetar hábitos
       const today = new Date().toDateString();
       const lastCheckDate = await storageService.getLastCheckDate();
       
       if (lastCheckDate !== today) {
-        // Resetar todos os hábitos para o novo dia
         const resetHabits = savedHabits.map(habit => ({
           ...habit,
           completed: false,
@@ -127,7 +125,6 @@ export const HomeScreen = () => {
         const newStreak = newCompleted ? habit.streak + 1 : habit.streak;
         
         if (newCompleted) {
-          // Adicionar XP ao jogador
           if (player) {
             const newXp = player.xp + 10;
             const newLevel = Math.floor(newXp / 100) + 1;
@@ -142,17 +139,14 @@ export const HomeScreen = () => {
       return habit;
     });
     
-    // Atualizar estado imediatamente
     setHabits(updatedHabits);
     
-    // Atualizar barra de progresso imediatamente com os novos valores
     const completed = updatedHabits.filter(h => h.completed).length;
     const progress = updatedHabits.length > 0 ? completed / updatedHabits.length : 0;
     progressValue.value = withSpring(progress, {
       damping: 15,
     });
     
-    // Salvar no storage
     await storageService.saveHabits(updatedHabits);
   };
 
@@ -169,7 +163,6 @@ export const HomeScreen = () => {
     try {
       return deserializeCharacter(player.avatar);
     } catch (error) {
-      // Avatar antigo (emoji) - retornar null para não mostrar
       return null;
     }
   };

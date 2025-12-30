@@ -42,7 +42,6 @@ export const CustomCharacterUploader = ({
       };
       input.click();
     } else {
-      // Para mobile: usar biblioteca de picker
       Alert.alert(
         t.uploadCharacter,
         t.uploadInDevelopment,

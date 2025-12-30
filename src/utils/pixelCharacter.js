@@ -1,7 +1,4 @@
-﻿// Gerador de personagens pixelados
-// Tipos removidos - usar JSDoc se necessÃ¡rio
-
-export const SKIN_TONES = [
+﻿export const SKIN_TONES = [
   '#ffd5b4', // Clara
   '#f4c2a0', // Média clara
   '#e4b899', // Bege

@@ -19,10 +19,9 @@ export const FocusTimer = ({ habit, onUpdate }) => {
   const intervalRef = useRef(null);
   const notificationIntervalRef = useRef(null);
 
-  const defaultDuration = habit.timerMinutes || 25; // Padrão 25 min (Pomodoro)
+  const defaultDuration = habit.timerMinutes || 25;
 
   useEffect(() => {
-    // Limpar intervalos anteriores
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
@@ -42,12 +41,10 @@ export const FocusTimer = ({ habit, onUpdate }) => {
         });
       }, 1000);
       
-      // Interval da notificação (a cada 5 segundos para não sobrecarregar)
       notificationIntervalRef.current = setInterval(() => {
         updateTimerNotification();
       }, 5000);
       
-      // Atualizar imediatamente
       updateTimerNotification();
     }
 
@@ -82,7 +79,6 @@ export const FocusTimer = ({ habit, onUpdate }) => {
     setIsRunning(true);
     setVisible(true);
     
-    // Criar notificação persistente
     await notificationService.displayOngoingNotification(
       `timer-${habit.id}`,
       `⏱️ ${habit.name} - ${minutes}:00`,
@@ -94,7 +90,6 @@ export const FocusTimer = ({ habit, onUpdate }) => {
     setIsRunning(false);
     setTimeLeft(0);
     
-    // Limpar intervalos
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
@@ -102,7 +97,6 @@ export const FocusTimer = ({ habit, onUpdate }) => {
       clearInterval(notificationIntervalRef.current);
     }
     
-    // Remover notificação persistente
     await notificationService.cancelOngoingNotification(`timer-${habit.id}`);
     
     const habits = await storageService.getHabits();
@@ -118,20 +112,18 @@ export const FocusTimer = ({ habit, onUpdate }) => {
     });
     await storageService.saveHabits(updated);
 
-    // Log da atividade
     await storageService.logHabitCompletion({
       habitId: habit.id,
       completedAt: new Date(),
       timerUsed: true,
     });
 
-    // Atualizar stats do player
     const player = await storageService.getPlayer();
     if (player) {
       const focusMinutes = totalTime / 60;
       await storageService.savePlayer({
         ...player,
-        xp: player.xp + 20, // Bônus por usar timer
+        xp: player.xp + 20, 
         stats: {
           ...player.stats,
           totalFocusMinutes: (player.stats?.totalFocusMinutes || 0) + focusMinutes,
@@ -171,7 +163,6 @@ export const FocusTimer = ({ habit, onUpdate }) => {
             setIsRunning(false);
             setTimeLeft(0);
             setVisible(false);
-            // Remover notificação persistente
             await notificationService.cancelOngoingNotification(`timer-${habit.id}`);
           },
         },

@@ -29,32 +29,25 @@ export const notificationService = {
     if (!habit.notificationEnabled) return;
 
     try {
-      // Cancelar todas anteriores deste hábito
       await notifee.cancelNotification(habit.id);
-      // Cancelar notificações de intervalo antigas
       for (let i = 0; i < 100; i++) {
         await notifee.cancelNotification(`${habit.id}-${i}`);
       }
       
-      // Para notificações de intervalo
       if (habit.recurrenceType === 'interval' && habit.intervalMinutes) {
         const intervalMinutes = habit.intervalMinutes;
         const now = new Date();
         const currentMinutes = now.getHours() * 60 + now.getMinutes();
         
-        // Calcular próxima notificação
         let nextNotificationMinutes = Math.ceil(currentMinutes / intervalMinutes) * intervalMinutes;
         
-        // Criar notificação para o próximo intervalo
         const nextTime = new Date();
         nextTime.setHours(0, nextNotificationMinutes, 0, 0);
         
-        // Se já passou, agendar para amanhã
         if (nextTime <= now) {
           nextTime.setDate(nextTime.getDate() + 1);
         }
         
-        // Criar notificação com repetição
         const trigger = {
           type: TriggerType.TIMESTAMP,
           timestamp: nextTime.getTime(),
@@ -76,13 +69,11 @@ export const notificationService = {
           trigger
         );
         
-        // Agendar próximas notificações do dia
         const minutesInDay = 24 * 60;
         for (let offset = intervalMinutes; offset < minutesInDay; offset += intervalMinutes) {
           const futureTime = new Date(nextTime);
           futureTime.setMinutes(futureTime.getMinutes() + offset);
           
-          // Não agendar se for para hoje e já passou
           if (futureTime > new Date()) {
             const futureTrigger = {
               type: TriggerType.TIMESTAMP,
@@ -110,7 +101,6 @@ export const notificationService = {
         return;
       }
 
-      // Para notificações diárias normais
       const [hours, minutes] = habit.time.split(':').map(Number);
       const now = new Date();
       const scheduledTime = new Date();
